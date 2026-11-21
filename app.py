@@ -107,8 +107,8 @@ with tab1:
     else:
         col = st.selectbox("Numeric column", num_cols, key="dist_col")
         a, b = st.columns(2)
-        a.plotly_chart(histogram(clean_df, col), width="stretch")
-        b.plotly_chart(boxplot(clean_df, col), width="stretch")
+        a.pyplot(histogram(clean_df, col))
+        b.pyplot(boxplot(clean_df, col))
         st.write("**Outliers (IQR rule)**")
         st.dataframe(outlier_summary(clean_df), width="stretch")
         low, high = outlier_bounds(clean_df[col])
@@ -122,13 +122,13 @@ with tab2:
         st.info("No categorical columns found.")
     else:
         cat = st.selectbox("Categorical column", cat_cols, key="cat_col")
-        st.plotly_chart(category_counts(clean_df, cat), width="stretch")
+        st.pyplot(category_counts(clean_df, cat))
 
 with tab3:
     if len(num_cols) < 2:
         st.info("Need at least two numeric columns.")
     else:
-        st.plotly_chart(correlation_heatmap(clean_df), width="stretch")
+        st.pyplot(correlation_heatmap(clean_df))
 
 with tab4:
     if len(num_cols) < 2:
@@ -136,11 +136,10 @@ with tab4:
     else:
         x = st.selectbox("X axis", num_cols, key="x_col")
         y = st.selectbox("Y axis", num_cols, index=1, key="y_col")
-        color = st.selectbox("Colour by (optional)", ["None"] + cat_cols,
+        few = [c for c in cat_cols if clean_df[c].nunique() <= 10]
+        color = st.selectbox("Colour by (optional)", ["None"] + few,
                              key="c_col")
-        st.plotly_chart(
-            scatter(clean_df, x, y, None if color == "None" else color),
-            width="stretch")
+        st.pyplot(scatter(clean_df, x, y, None if color == "None" else color))
 
 with tab5:
     if not cat_cols or not num_cols:
@@ -153,7 +152,7 @@ with tab5:
                            key="g_how")
         result = group_summary(clean_df, by, value, how)
         st.dataframe(result, width="stretch")
-        st.plotly_chart(group_bar(result, by, value, how), width="stretch")
+        st.pyplot(group_bar(result, by, value, how))
 
 st.subheader("8. Download a report")
 report_text = build_report(df, clean_df, steps, file.name)

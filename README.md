@@ -1,6 +1,6 @@
 # SmartCSV
 
-A Streamlit app to profile, clean, explore and report on any CSV file, built with Pandas, NumPy and Plotly.
+A Streamlit app to profile, clean, explore and report on any CSV file, built with Pandas, NumPy and Matplotlib.
 
 ## Features
 1. **Upload any CSV** (handles empty files and non-UTF-8 text).
@@ -23,7 +23,7 @@ Try it with `sample.csv`, a made-up (synthetic) housing dataset with missing val
 | `profiling.py` | Summary, column types, missing-value report |
 | `cleaning.py` | Duplicate and missing-value cleaning |
 | `eda.py` | IQR outlier detection |
-| `charts.py` | Plotly charts |
+| `charts.py` | Matplotlib charts |
 | `grouping.py` | Group-by summary |
 | `report.py` | Markdown report builder |
 
